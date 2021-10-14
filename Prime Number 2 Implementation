@@ -1,0 +1,21 @@
+# Author: Leonel Jeffrey Nzeukeng Kamga
+# Date: 14/10/2021
+# Aim: It is to check if a prime number is true and measure the running algorithm
+
+# test sample = 257, 3779, 14741, 331777, 7772777, 111181111, 99999199999 
+
+import time
+
+n = 111181177 # 8 secs
+
+start = time.time()
+
+factors = [f for f in range (1,n+1) if n%f==0 ]
+print(factors)
+
+is_prime = len(factors) == 2
+
+print(is_prime)
+
+end = time.time()
+print("n = {}; time = {}".format(n, end-start))

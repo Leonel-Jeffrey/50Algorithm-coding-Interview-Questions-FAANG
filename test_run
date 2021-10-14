@@ -1,0 +1,19 @@
+# Aim To use the time function to run a particular piece of code
+# Author: Leonel Jeffrey
+# Date: 14/10/2021
+
+Using time function
+
+"""
+import time
+
+def test_run():
+    start = time.time()
+    x = 1
+    for i in range(0,100000000):
+        x*=1.001
+    end = time.time()
+    print("The time taken is ", end-start, "seconds.")
+    
+if __name__ == "__main__":
+    test_run()

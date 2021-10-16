@@ -1,0 +1,30 @@
+# Aim: To reverse a queue sequence
+# Date: 16/10/2021
+# Author: Leonel Jeffrey Nzeukeng Kamga
+
+def reverse_queue(queue):
+    # Base case
+    if (queue.is_empty()):
+        return
+
+    # Dequeue current item (from front)
+    data = queue.front()
+    queue.pop()
+
+    # Reverse remaining queue
+    reverse_queue(queue)
+
+    # Enqueue current item (to rear)
+    queue.add(data)
+
+
+# Driver Code
+q = ArrayQueue()
+q.add(1)
+q.add(2)
+q.add(3)
+q.add(4)
+q.add(5)
+reverse_queue(q)
+q.print_queue()
+

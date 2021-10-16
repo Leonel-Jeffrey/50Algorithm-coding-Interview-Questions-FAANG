@@ -10,12 +10,12 @@
       self._size = 0
  
   # Returns True if the stack is empty or False otherwise.
-  def isEmpty( self ):
-    return self._top is None
+   def isEmpty( self ):
+     return self._top is None
 
    # Returns the number of items in the stack.
-  def __len__( self ):
-    return self._size
+   def __len__( self ):
+     return self._size
 
    # Returns the top item on the stack without removing it.
    def peek( self ):

@@ -28,10 +28,10 @@
      self._qArray[self._back] = item
      self._count += 1
  # Removes and returns the first item in the queue.
- def dequeue( self ):
-   assert not self.isEmpty(), "Cannot dequeue from an empty queue."
-   item = self._qArray[ self._front ]
-   maxSize = len(self._qArray)
-   self._front = (self._front + 1) % maxSize
-   self._count -= 1
-   return item
+  def dequeue( self ):
+    assert not self.isEmpty(), "Cannot dequeue from an empty queue."
+    item = self._qArray[ self._front ]
+    maxSize = len(self._qArray)
+    self._front = (self._front + 1) % maxSize
+    self._count -= 1
+    return item

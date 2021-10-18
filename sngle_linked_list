@@ -1,0 +1,133 @@
+# Aim: To implement a single linked list
+# Date: 18/10/2021
+# Author: Leonel Jeffrey Nzeukeng Kamga
+
+
+class _SingleLinkedBase:
+  #A base class providing a singly linked list representation
+
+  #-------------------------- nested _Node class --------------------------
+  # nested _Node class
+  class _Node:
+    #Lightweight, nonpublic class for storing a singly linked node
+    __slots__ = '_element', '_next'                     # streamline memory
+
+    def __init__(self, element, next):                  # initialize node's fields
+      self._element = element                           # user's element
+      self._next = next                                 # next node reference
+
+  #-------------------------- list constructor --------------------------
+
+  def __init__(self):
+    #Create an empty list
+    self._head = self._Node(None,  None)
+    self._size = 1                                      # number of elements
+
+  #-------------------------- public accessors --------------------------
+
+  def __len__(self):
+    """Return the number of elements in the list."""
+    return self._size
+
+  def is_empty(self):
+    """Return True if list is empty."""
+    return self._size == 0
+
+  #-------------------------- nonpublic utilities --------------------------
+
+  def addfirst(self, element):
+    #add a new node to the head of the list
+    #make the variable head point to the new node
+    self._head = self._Node(element, self._head)
+    self._size += 1
+    
+  def removefirst(self):
+    #remove the node at the head of the list
+    oldhead = self._head
+    if self._head != None:
+      self._head = self._head._next
+      oldhead._next = None
+      self._size -= 1
+    else:
+      raise ValueError("list is already empty")
+ 
+  def addlast(self, element):
+    #add a new node to the end of the list
+    #go to the end of the list
+    temp = self._head
+    while temp._next != None:
+      temp = temp._next
+    #now insert new node at end of list
+    temp._next = self._Node(element, None)
+    self._size += 1
+
+  def removelast(self):
+    #remove the node at the end of the list
+    #check if only one node in the list and delete
+    if self._head._next == None:
+      self._head = None 
+      self._size -= 1
+    #check if list is not already empty
+    elif self._head != None:
+      temp = self._head
+      previous = temp
+      while temp != None and temp._next != None:
+        previous = temp
+        temp = temp._next
+      if previous != None:
+        #remove last node
+        previous._next = None
+        self._size -= 1
+    else:
+      raise ValueError("list is already empty")
+
+  def addmid(self, element, after_element):
+    #add a new node after the node containing "after_element" information
+    currentnode=self._head
+    while currentnode._next != None and currentnode._element != after_element:
+      currentnode = currentnode._next
+    #f first occurrence of "after_element" was located then insert new node
+    if currentnode._next != None:
+        newest = self._Node(element, currentnode._next)
+        currentnode._next = newest
+        self._size += 1
+    else:
+      raise ValueError(after_element, " not found")
+      
+  def removemid(self, element):
+    #remove the node identified by element in the middle of a list
+    if self._head != None:
+      temp = self._head
+      previous = temp
+      #find node associated with “element”
+      while temp != None and temp._element != element:
+        previous = temp
+        temp = temp._next
+      if previous != None:
+        #remove last node
+        previous._next = temp._next
+        self._size -= 1
+    else:
+      raise ValueError("list is already empty")
+
+  def printlist(self, node):
+    if self.is_empty():
+       print("list is empty")
+    else:
+        temp=node
+        while temp != None:
+            print(temp._element," ")
+            temp = temp._next
+        print("There are",self.__len__(),"names in the list")
+        
+        
+        
+#create a linked list  
+slist = _SingleLinkedBase()
+
+#now add a number to the head node
+# insert
+slist._head._element = 22
+slist.addlast(2)
+slist.addlast(77)
+slist.printlist(slist._head)

@@ -1,0 +1,197 @@
+# Aim: To implement data structures
+# Date: 18/10/2021
+# Author: Leonel Jeffrey Nzeukeng Kamga
+
+## Task 1.   
+Visit the VisuAlgo website for interactively visualising data structures 
+and algorithms through animation:
+https://visualgo.net/en/list
+
+(a) Run the following algorithms for **LL (singly-linked lists)** via the interactive animation.
+*   Search
+*   Insert
+*	Remove
+
+Note that insertion and removal are specified by location or index but not the content of the list element at the visualisation site.
+
+(b) Run the Search, Insert and Remove algorithms for **DLL (doubly-linked lists)** via the interactive animation.
+
+(c) Create the LL and DLL with the same data, using "**User Defined List**" and compare search, insert and remove algorithms side-by-side.
+
+##Task 2.	
+Using the single linked list code provided (“single_linked_list.py”), create the same singly linked list (say, “slist”) as that of https://visualgo.net/en/list such as 22, 2, 77, 6, 43, 76, 89.
+"""
+
+# -*- coding: utf-8 -*-
+
+#Created on Wed Aug  5 12:37:58 2020
+
+#author: ic01
+
+class _SingleLinkedBase:
+  #A base class providing a singly linked list representation
+
+  #-------------------------- nested _Node class --------------------------
+  # nested _Node class
+  class _Node:
+    #Lightweight, nonpublic class for storing a singly linked node
+    __slots__ = '_element', '_next'                     # streamline memory
+
+    def __init__(self, element, next):                  # initialize node's fields
+      self._element = element                           # user's element
+      self._next = next                                 # next node reference
+
+  #-------------------------- list constructor --------------------------
+
+  def __init__(self):
+    #Create an empty list
+    self._head = self._Node(None,  None)
+    self._size = 1                                      # number of elements
+
+  #-------------------------- public accessors --------------------------
+
+  def __len__(self):
+    """Return the number of elements in the list."""
+    return self._size
+
+  def is_empty(self):
+    """Return True if list is empty."""
+    return self._size == 0
+
+  #-------------------------- nonpublic utilities --------------------------
+
+  def addfirst(self, element):
+    #add a new node to the head of the list
+    #make the variable head point to the new node
+    self._head = self._Node(element, self._head)
+    self._size += 1
+    
+  def removefirst(self):
+    #remove the node at the head of the list
+    oldhead = self._head
+    if self._head != None:
+      self._head = self._head._next
+      oldhead._next = None
+      self._size -= 1
+    else:
+      raise ValueError("list is already empty")
+ 
+  def addlast(self, element):
+    #add a new node to the end of the list
+    #go to the end of the list
+    temp = self._head
+    while temp._next != None:
+      temp = temp._next
+    #now insert new node at end of list
+    temp._next = self._Node(element, None)
+    self._size += 1
+
+  def removelast(self):
+    #remove the node at the end of the list
+    #check if only one node in the list and delete
+    if self._head._next == None:
+      self._head = None 
+      self._size -= 1
+    #check if list is not already empty
+    elif self._head != None:
+      temp = self._head
+      previous = temp
+      while temp != None and temp._next != None:
+        previous = temp
+        temp = temp._next
+      if previous != None:
+        #remove last node
+        previous._next = None
+        self._size -= 1
+    else:
+      raise ValueError("list is already empty")
+
+  def addmid(self, element, after_element):
+    #add a new node after the node containing "after_element" information
+    currentnode=self._head
+    while currentnode._next != None and currentnode._element != after_element:
+      currentnode = currentnode._next
+    #f first occurrence of "after_element" was located then insert new node
+    if currentnode._next != None:
+        newest = self._Node(element, currentnode._next)
+        currentnode._next = newest
+        self._size += 1
+    else:
+      raise ValueError(after_element, " not found")
+      
+  def removemid(self, element):
+    #remove the node identified by element in the middle of a list
+    if self._head != None:
+      temp = self._head
+      previous = temp
+      #find node associated with “element”
+      while temp != None and temp._element != element:
+        previous = temp
+        temp = temp._next
+      if previous != None:
+        #remove last node
+        previous._next = temp._next
+        self._size -= 1
+    else:
+      raise ValueError("list is already empty")
+
+  def printlist(self, node):
+    if self.is_empty():
+       print("list is empty")
+    else:
+        temp=node
+        while temp != None:
+            print(temp._element," ")
+            temp = temp._next
+        print("There are",self.__len__(),"names in the list")
+ 
+
+######### new functions
+# return (the 1st) position if found and -1 otherwise.
+  def search(self,element):
+    if self.is_empty():
+       print("list is empty")
+    else:
+        temp=self._head
+        pos=-1
+        while temp != None:
+            pos =pos+1
+            if element==temp._element:
+                return pos
+            temp = temp._next
+        # if not found
+        if pos ==self._size -1:
+            pos =-1
+        return pos
+   
+      
+        
+    
+
+#create a linked list  
+slist = _SingleLinkedBase()
+
+#now add a number to the head node
+# insert
+slist._head._element = 22
+slist.addlast(2)
+slist.addlast(77)
+
+slist.printlist(slist._head)
+
+
+
+"""(a)	**Frequency function**: write a function that will count how many times a given number appears in the list. For example, *slist.frequncy(43)* will return 1 for the list above.
+
+(b) **Frequency less function**: write a function that will return a count of the numbers that are less than a given number. For example, *slist.lessthan(43)* would return 3 for the list above.
+
+## Task 3.
+Visit the VisuAlgo website for hash tables;
+
+https://visualgo.net/en/hashtable
+
+(a) Run the algorithms of *search, insert* and *remove* using the existing hash tables for **SP (SEPARATE CHAINING)** and **LP (LINEAR PROBING)**, respectively. Note that the hash function is *h(x) = x% HT.length*, where *%* denotes the modulo operation that returns the remainder or signed remainder of a division after one number is divided by another (i.e. x is divided by HT.length). For instance, for a hash table of *HT.length=11*, we have *h(24)=2*.
+
+(b) For a closed-bucket hash table of HT.length=7 (i.e. using SP), create a data set of 6 numbers and insert them into an empty hash table such that the search algorithm runs most efficiently. Create another data set such that the search algorithm runs the least efficiently.
+
+(c) Given two open-bucket hash tables (i.e. LP) of the same length and the same hash function, would they have the same efficiency for the search algorithm if they have a similar configuration?  For instance, the following hash tables the hash function h(x) = x% HT.length, where HT.Length=7. Do they have the same time complexity for the search algorithm? Construct the hash tables in the VisuAlgo website and test out your answer.
